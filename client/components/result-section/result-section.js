@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import './result-section.scss';
+import Table from '../table';
 
 const ResultSection = ({ files }) => {
     const displayFiles = useMemo(() => files.filter((x) => x.data), [files]);
@@ -22,14 +23,7 @@ const ResultSection = ({ files }) => {
                       <div className="result-list__item">
                           <h4 className="result-list__item-title">{name}</h4>
                           <div className="sentences">
-                              {sentences && sentences.length && sentences.map((sentence) => (
-                                <div className="sentences__item">
-                                    <span className="sentences__item-text">
-                                        {sentence.text}
-                                    </span>
-                                    <span className="sentences__item-number">({sentence.confidence})</span>
-                                </div>
-                              ))}
+                              {!!(sentences && sentences.length) && <Table data={sentences} />}
                           </div>
                       </div>
                     )
