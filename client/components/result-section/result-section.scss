@@ -1,0 +1,51 @@
+.result-section {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+
+  &__title {
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+  }
+}
+
+.result-list {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+
+    &:not(:first-of-type) {
+      margin-top: 20px;
+    }
+
+    &-title {
+      font-size: 20px;
+    }
+  }
+}
+
+.sentences {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+
+    &-text, &-number {
+      font-size: 16px;
+    }
+  }
+}
