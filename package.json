@@ -8,7 +8,7 @@
     "client-build": "webpack --mode production --progress --hide-modules",
     "build-json": "node script/script.js",
     "server-watch": "nodemon --exec babel-node server/server.js",
-    "heroku-postbuild": "npm run client-build"
+    "heroku-postbuild": "bash build/production.sh"
   },
   "keywords": [],
   "engines": {
