@@ -1,6 +1,7 @@
 .files-section {
-  padding-top: 50px;
+  padding: 50px 0px 0px 20px;
   width: 40%;
+  margin-right: 50px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -26,7 +27,18 @@
     width: 300px;
     min-height: 48px;
     height: fit-content;
-    background: #374785;
+
+    &--loading {
+      background: #374785;
+    }
+
+    &--success {
+      background: #00a100;
+    }
+
+    &--error {
+      background: #de0000;
+    }
 
     &:not(:first-of-type) {
       margin-top: 20px;

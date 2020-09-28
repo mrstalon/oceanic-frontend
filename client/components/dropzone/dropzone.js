@@ -19,9 +19,23 @@ const DropZone = ({ setFiles }) => {
 
                         newState[targetId].data = data.files[0];
 
+                        if (!data.files[0] || data.files[0] && data.files[0].sentences && !data.files[0].sentences.length) {
+                            newState[targetId].error = true;
+                        }
+
                         return newState;
                     });
                 }
+            })
+            .catch(() => {
+                setFiles((state) => {
+                    const newState = [...state];
+                    const targetId = newState.findIndex((x) => x.id === file.id);
+
+                    newState[targetId].error = true;
+
+                    return newState;
+                });
             })
             .finally(() => {
                 setFiles((state) => {

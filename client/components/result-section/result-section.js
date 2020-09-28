@@ -12,8 +12,8 @@ const ResultSection = ({ files }) => {
             <h2 className="result-section__title">Files result</h2>
 
             <div className="result-list">
-                {displayFiles.filter((x) => x.data).map(({ data }) => {
-                    if (!data || !data.name || !data.sentences) {
+                {displayFiles.filter((x) => x.data).map(({ data, error }) => {
+                    if (!data || !data.name || !data.sentences || error) {
                         return <div/>;
                     }
 
