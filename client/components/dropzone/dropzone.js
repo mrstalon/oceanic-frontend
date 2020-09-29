@@ -6,6 +6,14 @@ import './dropzone.scss';
 import { httpRequest } from '../../utils';
 import { BASE_API_URL } from '../../constants';
 
+const containsError = (data) => {
+    if (data.files && data.files[0] && data.files[0].sentences && data.files[0].sentences[0] && data.files[0].sentences[0].text  === 'Unknown error occurred. Try again.') {
+        return true;
+    }
+
+    return false;
+};
+
 const DropZone = ({ setFiles }) => {
     const fetchAPI = useCallback((file) => {
         setFiles((state) => [...state, file]);
@@ -19,7 +27,7 @@ const DropZone = ({ setFiles }) => {
 
                         newState[targetId].data = data.files[0];
 
-                        if (!data.files[0] || data.files[0] && data.files[0].sentences && !data.files[0].sentences.length) {
+                        if (!data.files[0] || data.files[0] && data.files[0].sentences && !data.files[0].sentences.length || containsError(data)) {
                             newState[targetId].error = true;
                         }
 
