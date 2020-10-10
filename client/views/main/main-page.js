@@ -60,7 +60,7 @@ const MainPage = () => {
                         dispatch(updateFile({ id: file.id, isLoaded: true, error: true }));
                         console.error(err);
                     });
-            }, 1000);
+            }, 3000);
 
             dispatch(updatePendingFile({ ...file, intervalId }));
         });
