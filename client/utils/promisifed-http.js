@@ -10,8 +10,8 @@ const httpRequest = (url, method, file) => {
             if (request.status >= 200 && request.status < 300 && request.response) {
                 const parsed = JSON.parse(request.response);
 
-                if (parsed.data) {
-                    resolve(parsed.data);
+                if (parsed) {
+                    resolve(parsed);
                 }
             } else {
                 reject(request.statusText);
@@ -20,7 +20,7 @@ const httpRequest = (url, method, file) => {
 
         request.onerror = () => reject(request.statusText);
 
-        request.send(formData);
+        request.send(file ? formData : '');
     });
 };
 

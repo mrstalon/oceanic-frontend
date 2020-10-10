@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 
 import './result-section.scss';
 import Table from '../table';
+import { useSelectorOfFiles } from '../../store/selectors';
 
-const ResultSection = ({ files }) => {
+const ResultSection = () => {
+    const files = useSelectorOfFiles();
+
     const displayFiles = useMemo(() => files.filter((x) => x.data), [files]);
 
     return (
@@ -31,10 +33,6 @@ const ResultSection = ({ files }) => {
             </div>
         </div>
     );
-};
-
-ResultSection.propTypes = {
-    files: PropTypes.array,
 };
 
 export default ResultSection;

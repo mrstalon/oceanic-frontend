@@ -1,61 +1,14 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 
 import './dropzone.scss';
+import { addFile, addPendingFile, updateFile, updatePendingFile } from '../../store/actions';
 import { httpRequest } from '../../utils';
 import { BASE_API_URL } from '../../constants';
 
-const containsError = (data) => {
-    if (data.files && data.files[0] && data.files[0].sentences && data.files[0].sentences[0] && data.files[0].sentences[0].text  === 'Unknown error occurred. Try again.') {
-        return true;
-    }
-
-    return false;
-};
-
-const DropZone = ({ setFiles }) => {
-    const fetchAPI = useCallback((file) => {
-        setFiles((state) => [...state, file]);
-
-        httpRequest(BASE_API_URL, 'POST', file)
-            .then((data) => {
-                if (data && data.files && data.files.length) {
-                    setFiles((state) => {
-                        const newState = [...state];
-                        const targetId = newState.findIndex((x) => x.id === file.id);
-
-                        newState[targetId].data = data.files[0];
-
-                        if (!data.files[0] || data.files[0] && data.files[0].sentences && !data.files[0].sentences.length || containsError(data)) {
-                            newState[targetId].error = true;
-                        }
-
-                        return newState;
-                    });
-                }
-            })
-            .catch(() => {
-                setFiles((state) => {
-                    const newState = [...state];
-                    const targetId = newState.findIndex((x) => x.id === file.id);
-
-                    newState[targetId].error = true;
-
-                    return newState;
-                });
-            })
-            .finally(() => {
-                setFiles((state) => {
-                    const newState = [...state];
-                    const targetId = newState.findIndex((x) => x.id === file.id);
-
-                    newState[targetId].isLoaded = true;
-
-                    return newState;
-                });
-            });
-    }, [setFiles]);
+const DropZone = () => {
+    const dispatch = useDispatch();
 
     const onDrop = useCallback((acceptedFiles) => {
         const files = acceptedFiles.map((file, index) => {
@@ -68,9 +21,22 @@ const DropZone = ({ setFiles }) => {
         });
 
         files.forEach((file) => {
-            fetchAPI(file);
+            dispatch(addFile(file));
+
+            httpRequest(BASE_API_URL, 'POST', file)
+                .then((data) => {
+                    if (data && data.length) {
+                        const id = data[0][1];
+
+                        dispatch(addPendingFile({ fileId: file.id, id }));
+                    }
+                })
+                .catch((err) => {
+                    dispatch(updateFile({ id: file.id, error: true, isLoaded: true }));
+                    console.error(err);
+                })
         });
-    }, [setFiles, fetchAPI]);
+    }, [dispatch]);
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -87,10 +53,6 @@ const DropZone = ({ setFiles }) => {
           </div>
       </div>
     );
-};
-
-DropZone.propTypes = {
-    setFiles: PropTypes.func,
 };
 
 export default DropZone;

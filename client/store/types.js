@@ -1,0 +1,5 @@
+export const ADD_FILE = 'ADD_FILE';
+export const UPDATE_FILE = 'UPDATE_FILE';
+
+export const ADD_PENDING_FILE = 'ADD_PENDING_FILE';
+export const UPDATE_PENDING_FILE = 'UPDATE_PENDING_FILE';

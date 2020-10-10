@@ -1,1 +1,1 @@
-export const BASE_API_URL = 'https://deadswish-oceanic-watson-proxy.herokuapp.com/speech-to-text/';
+export const BASE_API_URL = 'http://54.221.66.18:8000/speech-to-text/';
